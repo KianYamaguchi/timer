@@ -13,6 +13,10 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
+app.get('/stamp', (req, res) => {
+  res.render('stamp');
+});
+
 app.get('/home', (req, res)=>{
     res.render('home');
 })

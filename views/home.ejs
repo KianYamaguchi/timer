@@ -7,7 +7,16 @@
     <link rel="stylesheet" href="/home.css">
 </head>
 <body>
-    <h1>Hello World!</h1>
+    <h1>ストップウォッチ</h1>
+    <div class ="stopwatch_container">
+    <div class="time">00:00:00</div>
+    <div class="controls">
+        <button id="startStop"class="start-btn" onclick="toggleStartStop()">start</button>
+        <button id="resetlap" class="reset-btn" onclick="ResetLap()">Reset</button>
+    </div>
+  <div class="laps-container"></div>
+    </div>
+
       <script src="/home.js"></script>
 </body>
 </html>
