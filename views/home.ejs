@@ -9,12 +9,13 @@
 <body>
 <h1>ストップウォッチ</h1>
     <div class ="stopwatch_container">
+      <div class="switch">● ○</div>
             <div class="analog-container">
   <canvas id="analog" width="200" height="200"></canvas>
     </div>
     <div class="time">00:00:00</div>
     <p>
-    <button onclick="toggleDisplay()">表示切替</button>
+    <button class="switch2" onclick="toggleDisplay()">表示切替</button>
     </p>
     <div class="controls">
         <button id="startStop"class="start-btn" onclick="toggleStartStop()">start</button>
