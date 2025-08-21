@@ -132,22 +132,39 @@ function drawAnalog(secCount) {
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  // シンプルな目盛り（5秒ごとだけ）
-  for (let i = 0; i < 60; i += 5) {
-    const angle = (i / 60) * 2 * Math.PI;
-    ctx.beginPath();
-    ctx.moveTo(
-      centerX + Math.cos(angle) * (radius - 8),
-      centerY + Math.sin(angle) * (radius - 8)
-    );
-    ctx.lineTo(
-      centerX + Math.cos(angle) * (radius - 2),
-      centerY + Math.sin(angle) * (radius - 2)
-    );
-    ctx.strokeStyle = "#bbb";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-  }
+  // 1秒ごとの細い目盛り
+for (let i = 0; i < 60; i++) {
+  const angle = (i / 60) * 2 * Math.PI;
+  ctx.beginPath();
+  ctx.moveTo(
+    centerX + Math.cos(angle) * (radius - 6),
+    centerY + Math.sin(angle) * (radius - 6)
+  );
+  ctx.lineTo(
+    centerX + Math.cos(angle) * (radius - 2),
+    centerY + Math.sin(angle) * (radius - 2)
+  );
+  ctx.strokeStyle = "#ddd";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+}
+
+// 5秒ごとの太い目盛り
+for (let i = 0; i < 60; i += 5) {
+  const angle = (i / 60) * 2 * Math.PI;
+  ctx.beginPath();
+  ctx.moveTo(
+    centerX + Math.cos(angle) * (radius - 10),
+    centerY + Math.sin(angle) * (radius - 10)
+  );
+  ctx.lineTo(
+    centerX + Math.cos(angle) * (radius - 2),
+    centerY + Math.sin(angle) * (radius - 2)
+  );
+  ctx.strokeStyle = "#90caf9";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+}
 
   // 秒針（1分で1周）
   ctx.save();
@@ -156,7 +173,7 @@ function drawAnalog(secCount) {
   ctx.beginPath();
   ctx.moveTo(0, 0);
   ctx.lineTo(0, -radius * 0.85);
-  ctx.strokeStyle = "#444";
+  ctx.strokeStyle = "#f15656ff";
   ctx.lineWidth = 2;
   ctx.stroke();
   ctx.restore();
@@ -185,9 +202,11 @@ updateDisplay = function() {
 
 function toggleDisplay() {
    if (document.querySelector('.analog-container').style.display === 'none') {
+    document.querySelector('.switch').textContent = '○ ●';
      document.querySelector('.analog-container').style.display = 'block';
      document.querySelector('.time').style.display = 'none';
    } else {
+    document.querySelector('.switch').textContent = '● ○';
      document.querySelector('.analog-container').style.display = 'none';
      document.querySelector('.time').style.display = 'block';
    }
