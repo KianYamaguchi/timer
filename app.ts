@@ -13,6 +13,10 @@ app.get('/', (req, res) => {
   res.redirect('/home');
 });
 
+app.get('/timer', (req, res) => {
+  res.render('timer');
+});
+
 app.get('/stamp', (req, res) => {
   res.render('stamp');
 });
