@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タイマー</title>
+    <link rel="stylesheet" href="/timer.css">
+</head>
+<body>
+    <a href="/home">ストップウォッチへ</a>
+    <h1>タイマー</h1>
+    <div class="timer_container">
+        <div class="timer_display">
+            <input type="text" id="timerDisplay" value="00:00:00">
+        </div>
+        <div class="addnumber">
+            <button onclick="addTime(30)">+0:30</button>
+            <button onclick="addTime(60)">+1:00</button>
+            <button onclick="addTime(300)">+5:00</button>
+        </div>
+        <div class="controls">
+            <button id="startStopTimer" class="start-btn" onclick="toggleStartStopTimer()">Start</button>
+            <button id="resetTimer" class="reset-btn" onclick="resetTimer()">Reset</button>
+        </div>
+    </div>
+    <script src="/timer.js"></script>
+</body>
+</html>
