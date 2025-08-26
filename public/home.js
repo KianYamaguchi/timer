@@ -9,6 +9,14 @@ function formatTime(sec) {
   const minute = String(Math.floor((sec / 6000) % 60)).padStart(2, '0');
   return `${minute}:${second}:${millisecond}`;
 }
+document.getElementById('fullscreenBtn').addEventListener('click', () => {
+    const elem = document.documentElement; // ページ全体
+    if (!document.fullscreenElement) {
+        elem.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+});
 
 function toggleStartStop() {
   const btn = document.getElementById('startStop');

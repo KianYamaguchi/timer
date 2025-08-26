@@ -133,6 +133,27 @@ h1 {
   box-shadow: 0 2px 12px rgba(25, 118, 210, 0.13);
 }
 
+.stop_btn {
+  background: linear-gradient(90deg, #e53935 60%, #ff7043 100%);
+  color: #fff;
+  border-radius: 8px;
+  padding: 0;
+  width: 120px;
+  height: 64px;
+  min-width: 120px;
+  min-height: 64px;
+  font-size: 1.7rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.stop_btn:hover {
+  background: linear-gradient(90deg, #b71c1c 60%, #e53935 100%);
+  box-shadow: 0 2px 12px rgba(229, 57, 53, 0.13);
+}
+
 @media (max-width: 500px) {
   .timer_container {
     padding: 16px 4vw 12px 4vw;
