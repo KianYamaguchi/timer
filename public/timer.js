@@ -3,7 +3,9 @@ let timer = null;
 let alarmInterval = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-    if(timer) return;
+     if ("Notification" in window) {
+        Notification.requestPermission();//通知許可をリクエストする
+    }
     const timerInput = document.getElementById('timerDisplay');
     timerInput.addEventListener('input', function () {
         // 数字以外を除去
@@ -27,6 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+function showNotification() {
+    if ("Notification" in window && Notification.permission === "granted") {//もし通知が許可されたら以下を表示する
+        new Notification("タイマー終了", {
+            body: "時間になりました！",
+            icon: "alarm.png" // 任意（publicフォルダに画像を置く場合）
+        });
+    }
+}
+
 document.getElementById('fullscreenBtn').addEventListener('click', () => {
     const elem = document.documentElement; // ページ全体
     if (!document.fullscreenElement) {
@@ -48,8 +59,10 @@ function addTime (time){
 
 function toggleStartStopTimer() {
     const btn = document.getElementById("startStopTimer");
+    const timerInput = document.getElementById('timerDisplay');
     if (btn.textContent == "Start") {
 
+        timerInput.readOnly = true;
         const displayNumber = document.querySelector('#timerDisplay').value;
         const [hour, minutes, seconds] = displayNumber.split(':').map(Number);
         totalSecond = hour * 3600 + minutes * 60 + seconds;
@@ -66,15 +79,18 @@ function toggleStartStopTimer() {
                 totalSecond--;
                 updateDisplay(totalSecond);
             } else {
-                document.querySelector(".timer_container").style.backgroundColor = "#f38c6dff";
+                document.querySelector(".timer_container").style.background = "#efb09cff";
                 alarm();
+                 showNotification(); 
                 clearInterval(timer);
             }
         }, 1000); // ← ここでsetIntervalを閉じる
     } else {
+        timerInput.readOnly = false;
         btn.classList.remove("stop_btn");
         btn.classList.add("start_btn");
         btn.textContent = "Start";
+        document.querySelector(".timer_container").style.background = "";
         clearInterval(timer);
         stopAlarm();
     }
@@ -106,12 +122,14 @@ function updateDisplay(sec){
 }
 
 function resetTimer() {
-  
     stopAlarm();
+    document.querySelector(".timer_container").style.background = "";
    document.querySelector('#timerDisplay').value = "00:00:00";
    clearInterval(timer);
    document.querySelector(".start-btn").textContent = "Start";
    document.querySelector(".start-btn").classList.remove("stop_btn");
    document.querySelector(".start-btn").classList.add("start_btn");
    totalSecond = 0;
+   const timerInput = document.getElementById('timerDisplay');
+    timerInput.readOnly = false;
 }
