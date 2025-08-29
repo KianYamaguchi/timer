@@ -1,12 +1,11 @@
 import { app } from './app';
 import request from 'supertest';
-
 describe('GET /', () => {
-    test('returns Hello World!', async () => {
-        const response = await request(app).get('/');
-        expect(response.status).toBe(200);
-        expect(response.text).toBe('Hello World!');
-    });
+  test('redirects to /home', async () => {
+    const response = await request(app).get('/');
+    expect(response.status).toBe(302);
+    expect(response.header.location).toBe('/home');
+  });
 });
 describe('GET /home', () => {
   test('renders Hello World! in home.ejs', async () => {

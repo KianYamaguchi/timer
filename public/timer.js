@@ -2,29 +2,19 @@ let totalSecond = 0;
 let timer = null;
 let alarmInterval = null;
 
+
 document.addEventListener('DOMContentLoaded', () => {
      if ("Notification" in window) {
         Notification.requestPermission();//通知許可をリクエストする
     }
     const timerInput = document.getElementById('timerDisplay');
     timerInput.addEventListener('input', function () {
-        // 数字以外を除去
         let val = this.value.replace(/\D/g, '');
-
-        // 最大6桁まで
         val = val.slice(-6);
-
-        // 右詰めで0埋め
         val = val.padStart(6, '0');
-
-        // 時分秒に分割
         let h = val.slice(0, 2);
         let m = val.slice(2, 4);
         let s = val.slice(4, 6);
-           // 分・秒を59までに制限
-        
-
-        // フォーマットｓ
         this.value = `${h}:${m}:${s}`;
     });
 });
@@ -36,6 +26,11 @@ function showNotification() {
             icon: "alarm.png" // 任意（publicフォルダに画像を置く場合）
         });
     }
+
+    const msg = new SpeechSynthesisUtterance("タイマーが終了しました");//自動音声
+    speechSynthesis.speak(msg);
+
+    document.title = "⏰ タイマー終了！";
 }
 
 document.getElementById('fullscreenBtn').addEventListener('click', () => {
@@ -48,6 +43,7 @@ document.getElementById('fullscreenBtn').addEventListener('click', () => {
 });
 
 function addTime (time){
+    if(document.getElementById("startStopTimer").textContent == "Stop") return;
     const displayNumber = document.querySelector('#timerDisplay').value;
     const [hour, minutes, seconds] = displayNumber.split(':').map(Number);
     totalSecond = hour * 3600 + minutes * 60 + seconds + time;
@@ -57,29 +53,32 @@ function addTime (time){
     document.querySelector('#timerDisplay').value = `${String(newHours).padStart(2, '0')}:${String(newMinutes).padStart(2, '0')}:${String(newSeconds).padStart(2, '0')}`;
 }
 
+function getDisplaySeconds(){
+    const displayNumber = document.querySelector('#timerDisplay').value;
+    const [hour, minutes, seconds] = displayNumber.split(':').map(Number);
+    totalSecond = hour * 3600 + minutes * 60 + seconds;
+    return totalSecond;
+}
+
 function toggleStartStopTimer() {
     const btn = document.getElementById("startStopTimer");
     const timerInput = document.getElementById('timerDisplay');
     if (btn.textContent == "Start") {
-
-        timerInput.readOnly = true;
-        const displayNumber = document.querySelector('#timerDisplay').value;
-        const [hour, minutes, seconds] = displayNumber.split(':').map(Number);
-        totalSecond = hour * 3600 + minutes * 60 + seconds;
-
+        getDisplaySeconds();
          if (totalSecond <= 0) return;
+        timerInput.readOnly = true;
         btn.classList.remove("start_btn")
         btn.classList.add("stop_btn")
         btn.textContent = "Stop";
 
 
         timer = setInterval(() => {
-            console.log(totalSecond);
             if (totalSecond > 0) {
                 totalSecond--;
                 updateDisplay(totalSecond);
             } else {
                 document.querySelector(".timer_container").style.background = "#efb09cff";
+                document.querySelector("body").style.background = "#f0a777ff";
                 alarm();
                  showNotification(); 
                 clearInterval(timer);
@@ -91,8 +90,10 @@ function toggleStartStopTimer() {
         btn.classList.add("start_btn");
         btn.textContent = "Start";
         document.querySelector(".timer_container").style.background = "";
+        document.querySelector("body").style.background = "";
         clearInterval(timer);
         stopAlarm();
+        document.title = "タイマー";
     }
 }
 function alarm() {
@@ -124,6 +125,7 @@ function updateDisplay(sec){
 function resetTimer() {
     stopAlarm();
     document.querySelector(".timer_container").style.background = "";
+    document.querySelector("body").style.background = "";
    document.querySelector('#timerDisplay').value = "00:00:00";
    clearInterval(timer);
    document.querySelector(".start-btn").textContent = "Start";
@@ -132,4 +134,5 @@ function resetTimer() {
    totalSecond = 0;
    const timerInput = document.getElementById('timerDisplay');
     timerInput.readOnly = false;
+    document.title = "タイマー";
 }
